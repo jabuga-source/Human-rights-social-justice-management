@@ -26,6 +26,30 @@ const countryData = {
     }
 };
 
+// NEW DATABASE: Free references for users checking their country laws instantly
+const lawDatabase = {
+    "United States": {
+        title: "United States Constitutional Protections",
+        laws: "The Bill of Rights ensures core safeties. The 4th Amendment protects you against unreasonable searches and seizures, while the 14th Amendment guarantees equal protection under state and federal laws."
+    },
+    "United Kingdom": {
+        title: "United Kingdom Statutory Safeguards",
+        laws: "The Human Rights Act 1998 incorporates the European Convention on Human Rights into British law. Key elements include Article 6 (Right to a fair trial) and Article 10 (Freedom of expression)."
+    },
+    "Kenya": {
+        title: "The Constitution of Kenya (2010) Framework",
+        laws: "Chapter Four contains the Bill of Rights. Article 26 protects the Right to Life, Article 29 guarantees Freedom and Security of the person, and Article 36 guarantees Freedom of Association."
+    },
+    "India": {
+        title: "The Fundamental Rights of India",
+        laws: "Part III of the Constitution grants fundamental safety pillars. Article 14 ensures equality before law, Article 19 safeguards freedom of assembly and speech, and Article 21 protects personal life and liberty."
+    },
+    "Other": {
+        title: "Universal Declaration of Human Rights (UDHR)",
+        laws: "Under international treaty standards, Article 3 holds that everyone has the right to life, liberty, and security. Article 5 states explicitly that no one shall be subjected to torture or degrading treatment."
+    }
+};
+
 let userProfile = { email: "", phone: "", country: "" };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -33,6 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("reportForm").addEventListener("submit", handleReport);
     document.getElementById("buyBtn").addEventListener("click", purchasePremium);
     document.getElementById("themeToggle").addEventListener("change", (e) => toggleTheme(e.target.value));
+    
+    // Connect new law exploration button trigger
+    document.getElementById("localLawsBtn").addEventListener("click", showCountryLaws);
 });
 
 function handleLogin(event) {
@@ -44,6 +71,21 @@ function handleLogin(event) {
     document.getElementById('welcomeBanner').innerText = `🔐 Channel Secured: ${userProfile.email} (${userProfile.country})`;
     document.getElementById('authorityDestination').innerText = countryData[userProfile.country].authority;
     document.getElementById('loginModal').style.display = 'none';
+}
+
+// NEW FUNCTION: Reads user profile and exposes the law text variables
+function showCountryLaws() {
+    if (!userProfile.country) {
+        alert("Please log in using the dialogue configuration box first.");
+        return;
+    }
+    
+    const lawDetails = lawDatabase[userProfile.country] || lawDatabase["Other"];
+    
+    // Inject texts and modify the layout display to block visibility
+    document.getElementById("localLawsTitle").innerText = lawDetails.title;
+    document.getElementById("localLawsBody").innerText = lawDetails.laws;
+    document.getElementById("localLawsDisplay").style.display = "block";
 }
 
 async function handleReport(event) {
